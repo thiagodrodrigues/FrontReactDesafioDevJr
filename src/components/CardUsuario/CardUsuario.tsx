@@ -3,10 +3,9 @@ import { Card } from './CardUsuario.style'
 import lata from '../../assets/lata.svg'
 import lapis from '../../assets/pencil.svg'
 import { Link, useNavigate } from 'react-router-dom'
-import api from '../../api'
+import api from '../../api/config'
 import jwt_decode from "jwt-decode";
 import { UsuariosProps } from '../../pages/ListaUsuario'
-import { flexbox } from '@mui/system'
 
 type CardProps = {
   _id: string,
@@ -44,12 +43,13 @@ const CardUsuario = ({_id, username, name, email, age, photo, index}:CardProps) 
   }, [])
 
   async function deleteUsuarios() {
+
     await  api.delete(`/users/${_id}`,{
       headers: {
         Authorization: `Bearer ${USUARIO}`
       }
     })
-      setTimeout(() => navigate('/users'), 1000)
+      setTimeout(() => {window.location.reload(); navigate('/users'), 1000})
     }
 
 

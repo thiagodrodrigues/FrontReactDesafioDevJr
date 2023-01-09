@@ -6,7 +6,7 @@ export const  TesteStyle = styled.form`
     border: 0.9875px solid #CFCFCF;
     border-radius: 15.8px;
     padding: 2% 2%;
-    position: fixed;
+    position: absolute;
     font-family: 'Roboto', sans-serif;
     font-style: normal;
     font-weight: 400;

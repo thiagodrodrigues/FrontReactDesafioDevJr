@@ -6,8 +6,7 @@ import Header from '../components/Header'
 import { Footer } from "../components/Footer/Footer"
 import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
-import api from "../api"
-import ReactPaginate from "react-paginate"
+import api from "../api/config"
 import Pagination from "../components/ListaPagina/Paginas"
 
 
@@ -31,6 +30,8 @@ const Usuarios = (props: UsuariosProps) => {
   const lastPage = Math.ceil(listaUsuarios.length/limitePorPagina);
   const offset = (currentPage -1)*limitePorPagina
   const atualListaUsuarios = listaUsuarios.slice(offset, offset + limitePorPagina)
+  const listaDivLeft = atualListaUsuarios.slice(0, Math.ceil(atualListaUsuarios.length/2))
+  const listaDivRight = atualListaUsuarios.slice(Math.ceil(atualListaUsuarios.length/2))
 
   const USUARIO = localStorage.getItem('token');
 /*   const ID = localStorage.getItem('_id'); */
@@ -72,14 +73,13 @@ const Usuarios = (props: UsuariosProps) => {
         </div>
       </TopSection>
       
-
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} lastPage={lastPage} maxLength={7}/>      
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} lastPage={lastPage} maxLength={7}/> 
       {listaUsuarios.length === 0 ? 
         (<></>):
-        (
+        (<div style={{display: "flex", flexDirection: "row", columns: "auto auto", columnWidth: "auto", justifyContent: "space-around"}}>
           <ListagemUsuarios >
           <div className="listaUsers" style={{display: "flex", flexDirection: "column", columns: "auto auto", columnWidth: "auto", maxWidth: "550px"}}>
-            {atualListaUsuarios.slice(0).map((listaUsuarios, i) => (<CardUsuario
+            {listaDivLeft.slice(0).map((listaUsuarios, i) => (<CardUsuario
             key={i}
             index={total-=1}
             _id={listaUsuarios._id}
@@ -91,6 +91,21 @@ const Usuarios = (props: UsuariosProps) => {
             />))}
           </div>
           </ListagemUsuarios>
+          <ListagemUsuarios >
+          <div className="listaUsers" style={{display: "flex", flexDirection: "column", columns: "auto auto", columnWidth: "auto", maxWidth: "550px"}}>
+            {listaDivRight.slice(0).map((listaUsuarios, i) => (<CardUsuario
+            key={i}
+            index={total-=1}
+            _id={listaUsuarios._id}
+            username={listaUsuarios.username}
+            name={listaUsuarios.name}
+            email={listaUsuarios.email}
+            age={listaUsuarios.age}
+            photo={listaUsuarios.photo}
+            />))}
+          </div>
+          </ListagemUsuarios>
+          </div>
           )
         }
       <Footer />

@@ -29,8 +29,15 @@ export const TopSection = styled.div`
 `
 export const ListagemUsuarios = styled.div`
 padding: 50px;
-display: list-item;
-columns: 2;
+display: flex;
+align-content: space-between;
+flex-wrap: wrap;
+justify-content: space-around;
+`
+
+export const CadastroUsuarios = styled.div`
+padding: 50px;
+display: flex;
 align-content: space-between;
 flex-wrap: wrap;
 justify-content: space-around;

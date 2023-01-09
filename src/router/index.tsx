@@ -2,7 +2,7 @@ import {
   createBrowserRouter,
 } from "react-router-dom";
 import AppLogin from "../pages/LoginPage";
-import { CadastroDeUsuario } from "../pages/CadastroDeUsuário";
+import UserCreate from "../pages/CadastroDeUsuário";
 import { ListaClientes } from "../pages/ListaClientes";
 import Usuarios from "../pages/ListaUsuario";
 import { EditaCliente } from "../pages/EditaCliente";
@@ -18,7 +18,7 @@ const router = createBrowserRouter([
     },
     {
         path: "/users/create",
-        element: <CadastroDeUsuario />,
+        element: <UserCreate  />,
     },
     {
         path: "/users",
