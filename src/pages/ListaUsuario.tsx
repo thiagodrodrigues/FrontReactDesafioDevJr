@@ -1,10 +1,10 @@
+import { useEffect, useState, FormEvent } from "react"
 import BemVindo from "../components/BemVindo/BemVindo"
 import Button from "../components/Button/Button"
 import CardUsuario from "../components/CardUsuario/CardUsuario"
 import { ListagemUsuarios, TopSection } from "./Pages"
 import Header from '../components/Header'
 import { Footer } from "../components/Footer/Footer"
-import { useEffect, useState } from "react"
 import jwt_decode from "jwt-decode"
 import api from "../api/config"
 import Pagination from "../components/ListaPagina/Paginas"
@@ -27,14 +27,9 @@ const Usuarios = (props: UsuariosProps) => {
 
   const [listaUsuarios, setUsers] = useState<UsuariosProps[]>([])
   const limitePorPagina = 10
-  const lastPage = Math.ceil(listaUsuarios.length/limitePorPagina);
   const offset = (currentPage -1)*limitePorPagina
-  const atualListaUsuarios = listaUsuarios.slice(offset, offset + limitePorPagina)
-  const listaDivLeft = atualListaUsuarios.slice(0, Math.ceil(atualListaUsuarios.length/2))
-  const listaDivRight = atualListaUsuarios.slice(Math.ceil(atualListaUsuarios.length/2))
 
   const USUARIO = localStorage.getItem('token');
-/*   const ID = localStorage.getItem('_id'); */
 
   const token = USUARIO;
   const decoded : any = jwt_decode(token!);
@@ -47,14 +42,26 @@ const Usuarios = (props: UsuariosProps) => {
     })
 
     setUsers(data)
-    }
+  }
+
+
+  let total = listaUsuarios.length +1
+
+  const [busca, setBusca] = useState<string>("")
+
+  const listaFiltrada = listaUsuarios.filter((parameter) => parameter.name.toLowerCase().includes(busca.toLowerCase()) || parameter.email.toLowerCase().includes(busca.toLowerCase()) || parameter.username.toLowerCase().includes(busca.toLowerCase()));
+  const atualListaUsuariosFiltrada = listaFiltrada.slice(offset, offset + limitePorPagina)
+  const lastPageFilter = Math.ceil(listaFiltrada.length/limitePorPagina);
+  const listaFiltradaDivLeft = atualListaUsuariosFiltrada.slice(0, Math.ceil(atualListaUsuariosFiltrada.length/2))
+  const listaFiltradaDivRight = atualListaUsuariosFiltrada.slice(Math.ceil(atualListaUsuariosFiltrada.length/2))
+
+  if (currentPage > lastPageFilter && lastPageFilter !== 0) {
+     setCurrentPage(1)
+  }
 
   useEffect(() => {
     getUsuarios()
-
   }, [])
-
-  let total = listaUsuarios.length +1
 
 
   return (
@@ -72,14 +79,16 @@ const Usuarios = (props: UsuariosProps) => {
         <Button text="Cadastrar Usuário" link="/users/create"/>
         </div>
       </TopSection>
-      
-      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} lastPage={lastPage} maxLength={7}/> 
+      <div style={{display: "flex", justifyContent: "center", margin: "15px" }}>
+        <input type={"text"} value={busca} onChange={(event) => setBusca(event.target.value)} placeholder={"Search"} style={{borderRadius: "10px", fontSize: "18px", borderColor: "#2C5EDE", }} />
+      </div>
+      <Pagination currentPage={currentPage} setCurrentPage={setCurrentPage} lastPage={lastPageFilter} maxLength={7}/> 
       {listaUsuarios.length === 0 ? 
         (<></>):
         (<div style={{display: "flex", flexDirection: "row", columns: "auto auto", columnWidth: "auto", justifyContent: "space-around"}}>
           <ListagemUsuarios >
           <div className="listaUsers" style={{display: "flex", flexDirection: "column", columns: "auto auto", columnWidth: "auto", maxWidth: "550px"}}>
-            {listaDivLeft.slice(0).map((listaUsuarios, i) => (<CardUsuario
+            {listaFiltradaDivLeft.slice(0).map((listaUsuarios, i) => (<CardUsuario
             key={i}
             index={total-=1}
             _id={listaUsuarios._id}
@@ -93,7 +102,7 @@ const Usuarios = (props: UsuariosProps) => {
           </ListagemUsuarios>
           <ListagemUsuarios >
           <div className="listaUsers" style={{display: "flex", flexDirection: "column", columns: "auto auto", columnWidth: "auto", maxWidth: "550px"}}>
-            {listaDivRight.slice(0).map((listaUsuarios, i) => (<CardUsuario
+            {listaFiltradaDivRight.slice(0).map((listaUsuarios, i) => (<CardUsuario
             key={i}
             index={total-=1}
             _id={listaUsuarios._id}

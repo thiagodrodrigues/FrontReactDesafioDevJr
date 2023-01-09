@@ -43,14 +43,14 @@ const LoginPageApp = () => {
       localStorage.removeItem('photo')
       localStorage.removeItem('id')
       localStorage.removeItem('checkbox')
-      setTimeout(() => {window.location.reload(); navigate('/index'), 1000})
+      setTimeout(() => {window.location.reload(); navigate('/'), 1000})
     }
 
     const onSubmit: SubmitHandler<Inputs> = (data) => {
       console.log(`linha 44, console data`, data)
 
       const submitInfos = () => {
-        api.post(`/index`, {
+        api.post(`/`, {
           username: data.username,
           password: data.password,
         }).then((res) => {
@@ -107,7 +107,7 @@ const LoginPageApp = () => {
 
   const onSubmit: SubmitHandler<Inputs> = (data) => {
     const submitInfos = () => {
-      api.post(`/index`, {
+      api.post(`/`, {
         username: data.username,
         password: data.password,
       }).then((res) => {

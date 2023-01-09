@@ -13,7 +13,7 @@ import { APIDogs } from "../pages/APIDogs";
 
 const router = createBrowserRouter([
     {
-        path: "/index",
+        path: "/",
         element: <AppLogin />,
     },
     {

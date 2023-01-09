@@ -19,7 +19,7 @@ const index = () => {
   const deslogar = () => {
     localStorage.setItem('token', ``);
     localStorage.setItem('_id', ``);
-    setTimeout(() => navigate('/index'), 1000)
+    setTimeout(() => navigate('/'), 1000)
   }
 
 
@@ -31,7 +31,7 @@ const index = () => {
             <LinkStyle className='links' style={{textDecoration: 'none' }} to="/APICats">API Cats</LinkStyle>
             <LinkStyle className='links' style={{textDecoration: 'none'}} to="/APIDogs">API Dogs</LinkStyle>
             <LinkStyle className='links' style={{textDecoration: 'none'}} to="/clients">Clientes</LinkStyle>
-            <LinkStyle className='links' style={{textDecoration: 'none'}} to="/index" onClick={deslogar}>Logout</LinkStyle>
+            <LinkStyle className='links' style={{textDecoration: 'none'}} to="/" onClick={deslogar}>Logout</LinkStyle>
             <img className="avatar" src={ photoUser? photoUser : avatar} alt="Foto de Usuário" />
       </HeaderStyle>
     </>
